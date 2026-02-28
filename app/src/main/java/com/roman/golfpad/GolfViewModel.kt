@@ -15,7 +15,8 @@ private const val COURSE_DATA_FILENAME = "course_data.json"
 
 data class HoleUiState(
     val data: GolfHoleData,
-    val isGIR: Boolean
+    val isGIR: Boolean,
+    val isHoledOut: Boolean
 )
 
 @HiltViewModel
@@ -31,11 +32,13 @@ class GolfViewModel @Inject constructor(
         viewModelScope.launch {
             val course = repository.getCourseData(COURSE_DATA_FILENAME)
 
-            val results = course.map { hole ->
-                HoleUiState(hole, calculateGIRUseCase(hole))
+            _uiState.value = course.map { hole ->
+                HoleUiState(
+                    data = hole,
+                    isGIR = calculateGIRUseCase.isGIRAchieved(hole),
+                    isHoledOut = calculateGIRUseCase.isHoledOut(hole)
+                )
             }
-
-            _uiState.value = results
         }
     }
 }
