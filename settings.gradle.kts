@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Golf Pad"
 include(":app")
- 
+include(":core:model")
+include(":domain")
+include(":data")
