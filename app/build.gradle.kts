@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -38,6 +40,12 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    applicationVariants.all {
+        outputs.all {
+            val output = this as? ApkVariantOutputImpl
+            output?.outputFileName = "golfpad.apk"
+        }
     }
 }
 

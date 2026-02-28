@@ -4,6 +4,7 @@ plugins {
 }
 dependencies {
     implementation(project(":core:model"))
+    testImplementation(libs.junit)
 }
 java {
     sourceCompatibility = JavaVersion.valueOf(libs.versions.javaVersion.get())

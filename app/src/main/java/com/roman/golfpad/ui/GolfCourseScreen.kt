@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,6 +81,9 @@ fun GolfCourseScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            item {
+                CourseSummaryCard(holes = holes)
+            }
             items(holes) { holeState ->
                 HoleCard(holeState, distanceProvider)
             }
@@ -89,7 +93,7 @@ fun GolfCourseScreen(
 
 @Composable
 fun HoleCard(state: HoleUiState, distanceProvider: DistanceProvider) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
     val statusColor = if (state.isGIR) Color(0xFF2E7D32) else Color(0xFFD32F2F)
 
     Card(
