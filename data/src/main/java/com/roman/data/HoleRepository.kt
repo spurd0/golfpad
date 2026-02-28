@@ -5,10 +5,19 @@ import com.roman.model.GolfHoleData
 import kotlinx.serialization.json.Json
 
 class HoleRepository(private val context: Context) {
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
-    fun getHoleData(fileName: String): GolfHoleData {
-        val jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        return json.decodeFromString(jsonString)
+    fun getCourseData(fileName: String): List<GolfHoleData> {
+        // TODO: may add different sources (local, remote, etc..)
+        return try {
+            val jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
+            json.decodeFromString<List<GolfHoleData>>(jsonString)
+        } catch (e: Exception) {
+            //TODO: handle exception, at least log it
+            emptyList()
+        }
     }
 }
